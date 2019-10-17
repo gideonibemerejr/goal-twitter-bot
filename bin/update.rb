@@ -24,6 +24,7 @@ end
 # doc = Nokogiri::XML(rss)
 
 # , 'https://www.soccercoachweekly.net/soccer-drills-and-skills/attacking/feed', 'https://www.soccercoachweekly.net/feed'
+
 feeds = ['https://www.goal.com/feeds/en/news']
 
 
@@ -31,6 +32,7 @@ feeds.each do |feed|
     rss = HTTParty.get(feed)
     doc = Nokogiri::XML(rss)
     count = 1
+
     doc.css('item').take(10).each do |item|
         title = item.css('title').text
         link = item.css('link').text
@@ -41,7 +43,6 @@ feeds.each do |feed|
         puts "Count: #{count} Title: #{title}, Link: #{link}"
         count += 1
     end
-    
 end
 
 # doc.css('item').take(2).each do |item|
