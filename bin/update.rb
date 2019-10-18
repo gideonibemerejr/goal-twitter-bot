@@ -14,7 +14,7 @@ end
 
 
 # Saving the the RSS feeds as an array 
-feeds = ['https://www.soccercoachweekly.net/soccer-drills-and-skills/attacking/feed', 'https://www.goal.com/feeds/en/news', 'https://www.soccercoachweekly.net/feed', 'https://statsbomb.com/articles/feed/']
+feeds = ['https://www.soccercoachweekly.net/soccer-drills-and-skills/attacking/feed', 'https://www.goal.com/feeds/en/news', 'https://www.soccercoachweekly.net/feed', 'https://statsbomb.com/articles/feed/', 'https://www.coachesvoice.com/category/masterclass/feed/', 'https://www.coachesvoice.com/category/the-journey/feed/']
 
 
 # set the latest_tweets variable to the latest tweets from a particular user via twitter.user_timeline() function
@@ -48,9 +48,10 @@ feeds.each do |feed|
    
     # Get the first two item elements from the currect doc and do something with each one
     doc.css('item').take(1).each do |item|
-
+        
         # set title to the item's title element text
         title = item.css('title').text
+
 
         # set title to the item's title element text
         link = item.css('link').text
@@ -58,17 +59,27 @@ feeds.each do |feed|
         # set title to the item's title element text
         # category = item.css('category').text
 
+        # set creator to the item's createor element
+        # creator = item.css('dccreator').text
+
+        # puts  "#{site_title} , #{creator}"
+
         # puts site_title.start_with?('Attacking', 'Soccer Coach Weekly') ? "Coach Weekly" : site_title
 
-       unless previous_links.include?(title)
+       unless previous_links.include?(link)
             if  site_title.start_with?('Attacking', 'Soccer Coach Weekly' )
                 twitter.update("Digital Coaching: #{title} #{link}")
             elsif site_title.start_with?('Articles – StatsBomb')
-                twitter.update("Analysis: #{title} #{link}")
-            else 
-                twitter.update("#{title} #{link}")
+                twitter.update("Analysis: #{title} #{link} via @statsbomb")
+            elsif site_title.start_with?('Masterclass')
+                twitter.update("Masterclass: #{title} #{link}  via @coachesvoice")
+            elsif site_title.start_with?('The Journey')
+                twitter.update("#{title} #{link} via @coachesvoice")
+            else
+                twitter.update("#{title} #{link} via @goal")
             end
        end
+
     end
 end
 
