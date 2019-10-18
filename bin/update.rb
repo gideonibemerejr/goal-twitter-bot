@@ -3,12 +3,17 @@ require 'twitter'
 require 'httparty'
 require 'nokogiri'
 
+# Configuring the Twitter client with API keys, tokens, and secrets
 twitter = Twitter::REST::Client.new do |config|
     config.consumer_key = ENV['CONSUMER_KEY']
     config.consumer_secret = ENV['CONSUMER_SECRET']
     config.access_token = ENV['ACCESS_TOKEN']
     config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
 end
+
+
+# Saving the the RSS feeds as an array 
+feeds = ['https://www.soccercoachweekly.net/soccer-drills-and-skills/attacking/feed', 'https://www.goal.com/feeds/en/news', 'https://www.soccercoachweekly.net/feed']
 
 # set the latest_tweets variable to the latest tweets from a particular user via twitter.user_timeline() function
 latest_tweets = twitter.user_timeline('footballmisters')
@@ -20,11 +25,6 @@ previous_links = latest_tweets.map do |tweet|
     end
 end
 
-# rss = HTTParty.get('https://www.goal.com/feeds/en/news') 
-# doc = Nokogiri::XML(rss)
-
-
-feeds = ['https://www.soccercoachweekly.net/soccer-drills-and-skills/attacking/feed', 'https://www.goal.com/feeds/en/news', 'https://www.soccercoachweekly.net/feed']
 
 
 feeds.each do |feed|
@@ -42,13 +42,16 @@ feeds.each do |feed|
         title = item.css('title').text
         link = item.css('link').text
         category = item.css('category').text
-        if site_title.start_with?('Attacking', 'Soccer Coach Weekly')
-            puts "Soccer Coach Weekly + #{site_title}"
-        end
+
         if category.start_with?('@')
             category = 'none'
         end
-        puts "Site: #{site_title} Count: #{count} Title: #{title}, Link: #{link}"
+
+       puts site_title.start_with?('Attacking', 'Soccer Coach Weekly') ? "Coach Weekly" : "Goal"
+
+
+
+        
         count += 1
     end
 end
