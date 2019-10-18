@@ -58,16 +58,16 @@ feeds.each do |feed|
         # set title to the item's title element text
         # category = item.css('category').text
 
-    #    puts site_title.start_with?('Attacking', 'Soccer Coach Weekly') ? "Coach Weekly" : site_title
+        # puts site_title.start_with?('Attacking', 'Soccer Coach Weekly') ? "Coach Weekly" : site_title
 
        unless previous_links.include?(title)
-        if  site_title.start_with?('Attacking', 'Soccer Coach Weekly' )
-            twitter.update("Digital Coaching: #{title} #{link}")
-        elsif site_title.starts_with?('Articles – StatsBomb')
-            twitter.update("Analysis: #{title} #{link}")
-        else 
-            twitter.update("#{title} #{link}"
-        end
+            if  site_title.start_with?('Attacking', 'Soccer Coach Weekly' )
+                twitter.update("Digital Coaching: #{title} #{link}")
+            elsif site_title.start_with?('Articles – StatsBomb')
+                twitter.update("Analysis: #{title} #{link}")
+            else 
+                twitter.update("#{title} #{link}")
+            end
        end
     end
 end
