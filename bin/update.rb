@@ -61,7 +61,13 @@ feeds.each do |feed|
     #    puts site_title.start_with?('Attacking', 'Soccer Coach Weekly') ? "Coach Weekly" : site_title
 
        unless previous_links.include?(title)
-            site_title.start_with?('Attacking', 'Soccer Coach Weekly' ) ? twitter.update("Digital Coaching: #{title} #{link}") : site_title.starts_with?('Articles – StatsBomb') ? twitter.update("Analysis: #{title} #{link}") : twitter.update("#{title} #{link}")
+        if  site_title.start_with?('Attacking', 'Soccer Coach Weekly' )
+            twitter.update("Digital Coaching: #{title} #{link}")
+        elsif site_title.starts_with?('Articles – StatsBomb')
+            twitter.update("Analysis: #{title} #{link}")
+        else 
+            twitter.update("#{title} #{link}"
+        end
        end
     end
 end
