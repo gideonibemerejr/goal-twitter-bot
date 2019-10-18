@@ -20,7 +20,7 @@ previous_links = latest_tweets.map do |tweet|
     end
 end
 
-# rss = HTTParty.get('https://www.goal.com/feeds/en/news')
+# rss = HTTParty.get('https://www.goal.com/feeds/en/news') 
 # doc = Nokogiri::XML(rss)
 
 
@@ -31,13 +31,20 @@ feeds.each do |feed|
     rss = HTTParty.get(feed)
     doc = Nokogiri::XML(rss)
     count = 1
+    site_title = ''
 
-    site_title = doc.css('title').take(1).text
+    doc.css('title').take(1).each do |item|
+        site_title = item.text
+    end
+   
 
     doc.css('item').take(2).each do |item|
         title = item.css('title').text
         link = item.css('link').text
         category = item.css('category').text
+        if site_title.start_with?('Attacking', 'Soccer Coach Weekly')
+            puts "Soccer Coach Weekly + #{site_title}"
+        end
         if category.start_with?('@')
             category = 'none'
         end
